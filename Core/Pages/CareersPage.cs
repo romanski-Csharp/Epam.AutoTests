@@ -30,10 +30,11 @@ namespace Core.Pages
 
         public void SearchPositions(string position, string countryName)
         {
+            JobSearchField.Clear();
             JobSearchField.SendKeys(position);
-            CountryField.Click();
             CountryField.SendKeys(Keys.Backspace);
-            CountryField.SendKeys(countryName + Keys.Tab);
+            CountryField.SendKeys(countryName);
+            CountryField.SendKeys(Keys.Tab);
             RemoteCheckBox.Click();
             ClickSearchAndWaitForResults();
         }
@@ -57,20 +58,18 @@ namespace Core.Pages
         {
             var allCards = JobCards;
 
-            if (allCards.Count == 0)
+            if (!allCards.Any())
             {
                 Console.WriteLine("Вакансій за цим запитом не знайдено.");
                 return false;
             }
-
-            var lastCard = allCards.Last();
 
 
             string actualCardText = string.Empty;
 
             wait.Until(d => {
                 actualCardText = (string)((IJavaScriptExecutor)d)
-                    .ExecuteScript("return arguments[0].textContent;", lastCard)!;
+                    .ExecuteScript("return arguments[0].textContent;", JobCards.Last())!;
 
                 return !string.IsNullOrWhiteSpace(actualCardText);
             });

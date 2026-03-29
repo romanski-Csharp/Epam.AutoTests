@@ -1,5 +1,8 @@
 ﻿using Core.Pages;
+using Core.Utils;
 using Data;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Tests
 {
@@ -9,8 +12,8 @@ namespace Tests
         [TestCaseSource(typeof(TestData), nameof(TestData.SearchCriteria))]
         public void CriteriaBasedSearch_ShouldGivePosition(string position, string country)
         {
-            
-            var mainPage = new MainPage(driver); 
+
+            var mainPage = new MainPage(driver);
             mainPage.AcceptCookies();
             mainPage.GoToCarriersPage();
 
@@ -20,6 +23,63 @@ namespace Tests
 
             bool isPositionRelevant = careersPage.IsPostionRelevant(position);
             Assert.That(isPositionRelevant, Is.True);
+        }
+
+        [Theory]
+        [TestCaseSource(typeof(TestData), nameof(TestData.GlobalSearchKeywords))]
+        public void GlobalSearch_ShouldGiveRelevantResults(string keyword)
+        {
+            var mainPage = new MainPage(driver);
+            mainPage.AcceptCookies();
+
+            var searchResultsPage = mainPage.PerformGlobalSearch(keyword);
+
+            bool areResultsRelevant = searchResultsPage.AreAllResultsRelevant(keyword);
+
+            Assert.That(areResultsRelevant, Is.True,
+                $"Не всі результати пошуку містять слово '{keyword}'.");
+        }
+
+        [Theory]
+        [TestCaseSource(typeof(TestData), nameof(TestData.FileDownloadNames))]
+        public void FileDownload_ShouldDownloadCorrectFile(string expectedFileName)
+        {
+            var mainPage = new MainPage(driver);
+            mainPage.AcceptCookies();
+
+            mainPage.DownloadCodeOfConduct();
+
+            string expectedFilePath = Path.Combine(DownloadDirectory, expectedFileName);
+            bool isFileDownloaded = WaitUntilFileIsDownloaded(expectedFilePath);
+
+            Assert.That(isFileDownloaded, Is.True,
+                $"Файл '{expectedFileName}' не був завантажений у папку {DownloadDirectory} протягом очікуваного часу.");
+        }
+
+        [Test]
+        public void CarouselArticleTitle_ShouldMatchOpenedArticle()
+        {
+            var mainPage = new MainPage(driver);
+            mainPage.AcceptCookies();
+            var insightsPage = mainPage.GoToInsightsPage();
+
+            int swipes = 2;
+            string expectedTitleFromCarousel = insightsPage.SwipeCarouselAndGetTitle(swipes);
+            Console.WriteLine($"[INFO] Карусель: {expectedTitleFromCarousel}");
+
+            var articlePage = insightsPage.ClickReadMoreOnActiveArticle();
+
+            string actualTitleFromArticle = articlePage.GetArticleTitle();
+            Console.WriteLine($"[INFO] Стаття: {actualTitleFromArticle}");
+
+            var significantWords = StringHelper.GetSignificantWords(expectedTitleFromCarousel);
+
+            foreach (var word in significantWords)
+            {
+                Assert.That(actualTitleFromArticle, Does.Contain(word).IgnoreCase,
+                    $"Заголовок статті не містить ключового слова '{word}' з каруселі.\n" +
+                    $"Карусель: {expectedTitleFromCarousel}\nСтаття: {actualTitleFromArticle}");
+            }
         }
     }
 }
