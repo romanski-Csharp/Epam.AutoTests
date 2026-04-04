@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using Core.Utils;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-namespace Core.Pages
+namespace Business.Pages
 {
     public class CareersPage : BasePage
     {
@@ -24,17 +20,28 @@ namespace Core.Pages
 
         public void AcceptCookies()
         {
-            CookiesBtn.Click();
+            try
+            {
+                Logger.Info("Приймаємо Cookies");
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", CookiesBtn);
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Logger.Info("Банер Cookies не з'явився.");
+            }
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.Id("onetrust-group-container")));
         }
 
         public void SearchPositions(string position, string countryName)
         {
+            Logger.Info($"Шукаємо вакансію: '{position}' у країні '{countryName}'");
             JobSearchField.Clear();
             JobSearchField.SendKeys(position);
+
             CountryField.SendKeys(Keys.Backspace);
             CountryField.SendKeys(countryName);
             CountryField.SendKeys(Keys.Tab);
+
             RemoteCheckBox.Click();
             ClickSearchAndWaitForResults();
         }
@@ -60,18 +67,28 @@ namespace Core.Pages
 
             if (!allCards.Any())
             {
-                Console.WriteLine("Вакансій за цим запитом не знайдено.");
+                Logger.Info("Вакансій за цим запитом не знайдено.");
                 return false;
             }
 
-
             string actualCardText = string.Empty;
 
-            wait.Until(d => {
-                actualCardText = (string)((IJavaScriptExecutor)d)
-                    .ExecuteScript("return arguments[0].textContent;", JobCards.Last())!;
+            wait.Until(d =>
+            {
+                try
+                {
+                    if (JobCards.Count == 0) return false;
+                    
+                    actualCardText = (string)((IJavaScriptExecutor)d)
+                        .ExecuteScript("return arguments[0].textContent;", JobCards.Last())!;
 
-                return !string.IsNullOrWhiteSpace(actualCardText);
+                    return !string.IsNullOrWhiteSpace(actualCardText);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    Logger.Debug("Спіймали StaleElementReferenceException, чекаємо оновлення DOM...");
+                    return false;
+                }
             });
 
             string pattern = $@"\b{Regex.Escape(position)}\b";
@@ -79,7 +96,7 @@ namespace Core.Pages
 
             if (!isMatch)
             {
-                Console.WriteLine($"[DEBUG] Шукали: '{position}'. Отримали текст:\n{actualCardText}");
+                Logger.Debug($"Шукали: '{position}'. Отримали текст:\n{actualCardText}");
             }
 
             return isMatch;

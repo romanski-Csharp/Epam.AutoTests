@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-namespace Core.Pages
+namespace Business.Pages
 {
     public class ArticlePage : BasePage
     {

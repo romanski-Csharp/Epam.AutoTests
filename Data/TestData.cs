@@ -2,9 +2,7 @@
 namespace Data
 {
     public static class TestData
-    {
-        public const string baseUrl = "https://www.epam.com/";
-     
+    {     
         public static IEnumerable<TestCaseData> SearchCriteria()
         {
             yield return new TestCaseData(".NET", "Ukraine");

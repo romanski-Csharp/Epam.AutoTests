@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Core.Pages
+namespace Business.Pages
 {
     public class InsightsPage : BasePage
     {

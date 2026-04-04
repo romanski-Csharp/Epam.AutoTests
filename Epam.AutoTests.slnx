@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="local.runsettings" />
+  </Folder>
+  <Project Path="Business/Business.csproj" Id="868f2442-718b-4a5a-be02-6ca0b6e9381f" />
   <Project Path="Core/Core.csproj" />
   <Project Path="Data/Data.csproj" />
   <Project Path="Tests/Tests.csproj" />

@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace Core
+namespace Business.Pages
 {
     public class BasePage
     {

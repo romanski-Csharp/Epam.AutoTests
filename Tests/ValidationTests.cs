@@ -1,4 +1,4 @@
-﻿using Core.Pages;
+﻿using Business.Pages;
 using Core.Utils;
 using Data;
 using OpenQA.Selenium;
@@ -65,12 +65,12 @@ namespace Tests
 
             int swipes = 2;
             string expectedTitleFromCarousel = insightsPage.SwipeCarouselAndGetTitle(swipes);
-            Console.WriteLine($"[INFO] Карусель: {expectedTitleFromCarousel}");
+            Logger.Info($"Карусель: {expectedTitleFromCarousel}");
 
             var articlePage = insightsPage.ClickReadMoreOnActiveArticle();
 
             string actualTitleFromArticle = articlePage.GetArticleTitle();
-            Console.WriteLine($"[INFO] Стаття: {actualTitleFromArticle}");
+            Logger.Info($"Стаття: {actualTitleFromArticle}");
 
             var significantWords = StringHelper.GetSignificantWords(expectedTitleFromCarousel);
 

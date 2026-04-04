@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
+using Core.Utils;
 
-namespace Core.Pages
+namespace Business.Pages
 {
     public class SearchResultsPage : BasePage
     {
@@ -21,7 +18,7 @@ namespace Core.Pages
 
             if (!links.Any())
             {
-                Console.WriteLine($"[INFO] Результатів для '{keyword}' не знайдено.");
+                Logger.Info($"Результатів для '{keyword}' не знайдено.");
                 return false;
             }
 
@@ -33,7 +30,7 @@ namespace Core.Pages
                 var invalidLinks = links.Where(l => !l.Text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
                 foreach (var invalid in invalidLinks)
                 {
-                    Console.WriteLine($"[DEBUG] Знайдено нерелевантний лінк: {invalid.Text}");
+                    Logger.Debug($"Знайдено нерелевантний лінк: {invalid.Text}");
                 }
             }
 

@@ -1,30 +1,39 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using Core.DriverFactory;
+using Core.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+
+[assembly: Parallelizable(ParallelScope.Children)]
+[assembly: LevelOfParallelism(2)]
 namespace Tests
 {
-    public class BaseTest
+    [FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
+    public abstract class BaseTest
     {
         protected IWebDriver driver;
-        protected string DownloadDirectory;
+        public string DownloadDirectory;
 
+        [OneTimeSetUp]
+        public static void GlobalSetup()
+        {
+            Core.Utils.Logger.InitLogger();
+        }
         [SetUp]
         public void Setup()
         {
-            DownloadDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads");
-            if (!Directory.Exists(DownloadDirectory))
-            {
-                Directory.CreateDirectory(DownloadDirectory);
-            }
+            Core.Utils.Logger.Info($"[START] Початок тесту: {TestContext.CurrentContext.Test.Name}");
 
-            var options = new ChromeOptions();
-            options.AddUserProfilePreference("download.default_directory", DownloadDirectory);
-            options.AddUserProfilePreference("download.prompt_for_download", false);
-            options.AddUserProfilePreference("plugins.always_open_pdf_externally", true);
+            DownloadDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads", Guid.NewGuid().ToString());
+            Directory.CreateDirectory(DownloadDirectory);
 
-            driver = new ChromeDriver(options);
+            string browser = ConfigManager.Instance.Browser;
+            string envUrl = ConfigManager.Instance.EnvironmentUrl;
+
+            driver = DriverFactory.CreateDriver(browser, DownloadDirectory);
+
             driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl(Data.TestData.baseUrl);
+            driver.Navigate().GoToUrl(envUrl);
+            Core.Utils.Logger.Info($"Відкрито URL: {envUrl}");
         }
         protected bool WaitUntilFileIsDownloaded(string filePath, int timeoutInSeconds = 15)
         {
@@ -47,12 +56,45 @@ namespace Tests
         [TearDown]
         public void TearDown()
         {
+            if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
+            {
+                TakeScreenshotOnFailure();
+            }
+
             driver?.Quit();
             driver?.Dispose();
 
             if (Directory.Exists(DownloadDirectory))
             {
                 Directory.Delete(DownloadDirectory, true);
+            }
+        }
+        private void TakeScreenshotOnFailure()
+        {
+            try
+            {
+                var screenshotDriver = driver as ITakesScreenshot;
+                if (screenshotDriver == null) return;
+
+                Screenshot screenshot = screenshotDriver.GetScreenshot();
+
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                string rawTestName = TestContext.CurrentContext.Test.Name;
+
+                string cleanTestName = string.Join("_", rawTestName.Split(Path.GetInvalidFileNameChars()));
+
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Screenshots\\{cleanTestName}_{timestamp}.png");
+
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                screenshot.SaveAsFile(filePath);
+                Core.Utils.Logger.Error($"[FAILED] Тест впав! Скріншот збережено: {filePath}");
+
+                TestContext.AddTestAttachment(filePath);
+            }
+            catch (Exception ex)
+            {
+                Core.Utils.Logger.Error($"Помилка при створенні скріншоту: {ex.Message}");
             }
         }
     }

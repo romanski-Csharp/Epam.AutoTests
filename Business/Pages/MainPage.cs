@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using Core.Utils;
 using SeleniumExtras.WaitHelpers;
 
-namespace Core.Pages
+namespace Business.Pages
 {
     public class MainPage : BasePage
     {
@@ -21,17 +21,30 @@ namespace Core.Pages
 
         public void AcceptCookies()
         {
-            CookiesBtn.Click();
+            try
+            {
+                Logger.Info("Приймаємо Cookies...");
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", CookiesBtn);
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Logger.Info("Банер Cookies не з'явився.");
+            }
         }
 
         public void GoToCarriersPage()
         {
+            Logger.Info("Натискаємо на посилання 'Careers'");
             CareersBtn.Click();
+
+            Logger.Info("Натискаємо на кнопку 'Start Your Search Here'");
             StartSearhBtn.Click();
         }
 
         public SearchResultsPage PerformGlobalSearch(string keyword)
         {
+            Logger.Info($"Починаємо глобальний пошук за ключовим словом: '{keyword}'");
+
             SearchIcon.Click();
 
             SearchInput.SendKeys(keyword);
@@ -43,7 +56,15 @@ namespace Core.Pages
 
         public void DownloadCodeOfConduct()
         {
+            Logger.Info("Скролимо до футера сторінки");
+
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", CodeOfConductLink);
+
+            wait.Until(ExpectedConditions.ElementToBeClickable(CodeOfConductLink));
+
+            Logger.Info("Натискаємо на посилання 'Code of Ethical Conduct'");
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", CodeOfConductLink);
+
         }
 
         public InsightsPage GoToInsightsPage()
