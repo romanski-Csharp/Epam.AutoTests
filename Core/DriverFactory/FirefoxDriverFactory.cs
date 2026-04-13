@@ -1,19 +1,21 @@
-﻿using Core.Interfaces;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using Core.Configuration;
 
 namespace Core.DriverFactory
 {
-    public class FirefoxDriverFactory : IDriverFactory
+    public class FirefoxDriverFactory : BaseDriverFactory<FirefoxOptions>
     {
-        public IWebDriver CreateDriver(string DownloadDirectory)
+        protected override void ConfigureDownloadOptions(FirefoxOptions options, string downloadDirectory)
         {
-            var options = new FirefoxOptions();
-            options.SetPreference("browser.download.dir", DownloadDirectory);
             options.SetPreference("browser.download.folderList", 2);
+            options.SetPreference("browser.download.dir", downloadDirectory);
             options.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf");
-            options.SetPreference("pdfjs.disabled", true);
+            options.SetPreference("pdfjs.disabled", ConfigManager.Instance.AlwaysOpenPdfExternally);
+        }
 
+        protected override IWebDriver CreateDriverInstance(FirefoxOptions options)
+        {
             return new FirefoxDriver(options);
         }
     }

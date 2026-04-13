@@ -1,16 +1,12 @@
-﻿using System;
-using System.Threading;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Business.Pages
 {
     public class InsightsPage : BasePage
     {
-        public InsightsPage(IWebDriver driver) : base(driver) 
+        public InsightsPage(IWebDriver driver) : base(driver)
         {
         }
 

@@ -26,7 +26,9 @@ namespace Core.Configuration
             }
         }
 
-        public string Browser => TestContext.Parameters.Get("Browser");
-        public string EnvironmentUrl => TestContext.Parameters.Get("EnvironmentUrl");
+        public string Browser => TestContext.Parameters.Get("Browser", "Chrome");
+        public string EnvironmentUrl => TestContext.Parameters.Get("EnvironmentUrl", "https://www.epam.com/");
+        public bool PromptForDownload => bool.Parse(TestContext.Parameters.Get("PromptForDownload", "false"));
+        public bool AlwaysOpenPdfExternally => bool.Parse(TestContext.Parameters.Get("AlwaysOpenPdfExternally", "true"));
     }
 }

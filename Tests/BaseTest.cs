@@ -1,5 +1,5 @@
-﻿using Core.DriverFactory;
-using Core.Configuration;
+﻿using Core.Configuration;
+using Core.DriverFactory;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 

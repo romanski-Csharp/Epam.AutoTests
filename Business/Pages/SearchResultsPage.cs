@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Core.Utils;
+using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
-using Core.Utils;
 
 namespace Business.Pages
 {

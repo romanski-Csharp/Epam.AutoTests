@@ -1,8 +1,6 @@
 ﻿using Business.Pages;
 using Core.Utils;
 using Data;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace Tests
 {

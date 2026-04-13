@@ -78,7 +78,7 @@ namespace Business.Pages
                 try
                 {
                     if (JobCards.Count == 0) return false;
-                    
+
                     actualCardText = (string)((IJavaScriptExecutor)d)
                         .ExecuteScript("return arguments[0].textContent;", JobCards.Last())!;
 
