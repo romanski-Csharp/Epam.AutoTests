@@ -26,7 +26,6 @@ namespace Tests.StepDefinitions
             _driver.Navigate().GoToUrl(ConfigManager.Instance.EnvironmentUrl);
         }
 
-        // Використовуємо {string} замість регулярних виразів
         [When("I hover over the {string} link in the main navigation menu")]
         public void WhenIHoverOverTheLinkInTheMainNavigationMenu(string menuName)
         {
