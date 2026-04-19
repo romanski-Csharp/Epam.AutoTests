@@ -13,10 +13,11 @@ namespace Business.Pages
 
         IWebElement CookiesBtn => wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("onetrust-accept-btn-handler")));
         IWebElement JobSearchField => driver.FindElement(By.CssSelector("[data-testid='search-input']"));
-        IWebElement CountryField => driver.FindElement(By.CssSelector("input[aria-label='Choose your country']"));
+        IWebElement CountryField => wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector("input[aria-label='Choose your country']")));
         IWebElement RemoteCheckBox => driver.FindElement(By.XPath("//label[contains(@for, 'Remote')]"));
         IWebElement SearchBtn => driver.FindElement(By.CssSelector("[data-event-content='search']"));
         IList<IWebElement> JobCards => driver.FindElements(By.ClassName("JobCard_panel__gTD7e"));
+        By PreloaderLocator => By.XPath("//div[contains(@class, 'Preloader_fullSize') or contains(@class, 'Preloader_transparent')]");
 
         public void AcceptCookies()
         {
@@ -32,17 +33,31 @@ namespace Business.Pages
             wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.Id("onetrust-group-container")));
         }
 
+        private void WaitForPreloaderToDisappear()
+        {
+            Logger.Debug("Чекаємо зникнення Preloader...");
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(PreloaderLocator));
+        }
+
         public void SearchPositions(string position, string countryName)
         {
             Logger.Info($"Шукаємо вакансію: '{position}' у країні '{countryName}'");
+
+            WaitForPreloaderToDisappear();
+            CountryField.SendKeys(Keys.Backspace);
+            WaitForPreloaderToDisappear();
+            CountryField.SendKeys(countryName);
+            CountryField.SendKeys(Keys.Tab);
+            WaitForPreloaderToDisappear();
+
             JobSearchField.Clear();
             JobSearchField.SendKeys(position);
 
-            CountryField.SendKeys(Keys.Backspace);
-            CountryField.SendKeys(countryName);
-            CountryField.SendKeys(Keys.Tab);
+            WaitForPreloaderToDisappear();
 
             RemoteCheckBox.Click();
+            WaitForPreloaderToDisappear();
+
             ClickSearchAndWaitForResults();
         }
 
