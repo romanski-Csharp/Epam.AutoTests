@@ -10,7 +10,6 @@ namespace Tests
         [TestCaseSource(typeof(TestData), nameof(TestData.SearchCriteria))]
         public void CriteriaBasedSearch_ShouldGivePosition(string position, string country)
         {
-
             var mainPage = new MainPage(driver);
             mainPage.AcceptCookies();
             mainPage.GoToCarriersPage();
@@ -35,7 +34,7 @@ namespace Tests
             bool areResultsRelevant = searchResultsPage.AreAllResultsRelevant(keyword);
 
             Assert.That(areResultsRelevant, Is.True,
-                $"Не всі результати пошуку містять слово '{keyword}'.");
+                $"Not all search results contain the word '{keyword}'.");
         }
 
         [Theory]
@@ -51,7 +50,7 @@ namespace Tests
             bool isFileDownloaded = WaitUntilFileIsDownloaded(expectedFilePath);
 
             Assert.That(isFileDownloaded, Is.True,
-                $"Файл '{expectedFileName}' не був завантажений у папку {DownloadDirectory} протягом очікуваного часу.");
+                $"File '{expectedFileName}' was not downloaded to folder {DownloadDirectory} within the expected time.");
         }
 
         [Test]
@@ -63,20 +62,20 @@ namespace Tests
 
             int swipes = 2;
             string expectedTitleFromCarousel = insightsPage.SwipeCarouselAndGetTitle(swipes);
-            Logger.Info($"Карусель: {expectedTitleFromCarousel}");
+            Logger.Info($"Carousel: {expectedTitleFromCarousel}");
 
             var articlePage = insightsPage.ClickReadMoreOnActiveArticle();
 
             string actualTitleFromArticle = articlePage.GetArticleTitle();
-            Logger.Info($"Стаття: {actualTitleFromArticle}");
+            Logger.Info($"Article: {actualTitleFromArticle}");
 
             var significantWords = StringHelper.GetSignificantWords(expectedTitleFromCarousel);
 
             foreach (var word in significantWords)
             {
                 Assert.That(actualTitleFromArticle, Does.Contain(word).IgnoreCase,
-                    $"Заголовок статті не містить ключового слова '{word}' з каруселі.\n" +
-                    $"Карусель: {expectedTitleFromCarousel}\nСтаття: {actualTitleFromArticle}");
+                    $"The article title does not contain the keyword '{word}' from the carousel.\n" +
+                    $"Carousel: {expectedTitleFromCarousel}\nArticle: {actualTitleFromArticle}");
             }
         }
     }

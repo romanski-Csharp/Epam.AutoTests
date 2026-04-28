@@ -30,5 +30,7 @@ namespace Core.Configuration
         public string EnvironmentUrl => TestContext.Parameters.Get("EnvironmentUrl", "https://www.epam.com/");
         public bool PromptForDownload => bool.Parse(TestContext.Parameters.Get("PromptForDownload", "false"));
         public bool AlwaysOpenPdfExternally => bool.Parse(TestContext.Parameters.Get("AlwaysOpenPdfExternally", "true"));
+        public string ApiBaseUrl => TestContext.Parameters.Get("ApiBaseUrl", "https://jsonplaceholder.typicode.com");
+        public string ApiMinLogLevel => TestContext.Parameters.Get("ApiMinLogLevel", "INFO");
     }
 }

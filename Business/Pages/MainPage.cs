@@ -26,27 +26,27 @@ namespace Business.Pages
         {
             try
             {
-                Logger.Info("Приймаємо Cookies...");
+                Logger.Info("Accepting Cookies...");
                 ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", CookiesBtn);
             }
             catch (WebDriverTimeoutException)
             {
-                Logger.Info("Банер Cookies не з'явився.");
+                Logger.Info("Cookies banner did not appear.");
             }
         }
 
         public void GoToCarriersPage()
         {
-            Logger.Info("Натискаємо на посилання 'Careers'");
+            Logger.Info("Clicking on the 'Careers' link");
             CareersBtn.Click();
 
-            Logger.Info("Натискаємо на кнопку 'Start Your Search Here'");
+            Logger.Info("Clicking on the 'Start Your Search Here' button");
             StartSearhBtn.Click();
         }
 
         public SearchResultsPage PerformGlobalSearch(string keyword)
         {
-            Logger.Info($"Починаємо глобальний пошук за ключовим словом: '{keyword}'");
+            Logger.Info($"Starting global search for keyword: '{keyword}'");
 
             SearchIcon.Click();
 
@@ -59,13 +59,13 @@ namespace Business.Pages
 
         public void DownloadCodeOfConduct()
         {
-            Logger.Info("Скролимо до футера сторінки");
+            Logger.Info("Scrolling to the page footer");
 
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", CodeOfConductLink);
 
             wait.Until(ExpectedConditions.ElementToBeClickable(CodeOfConductLink));
 
-            Logger.Info("Натискаємо на посилання 'Code of Ethical Conduct'");
+            Logger.Info("Clicking on the 'Code of Ethical Conduct' link");
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", CodeOfConductLink);
 
         }

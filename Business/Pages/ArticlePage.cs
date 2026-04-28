@@ -23,7 +23,7 @@ namespace Business.Pages
                 }
             }
 
-            throw new NotFoundException("Не вдалося знайти видимий заголовок статті (всі знайдені елементи були закороткими).");
+            throw new NotFoundException("Failed to find a visible article title (all found elements were too short).");
         }
     }
 }

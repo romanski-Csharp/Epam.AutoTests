@@ -18,7 +18,7 @@ namespace Business.Pages
 
             if (!links.Any())
             {
-                Logger.Info($"Результатів для '{keyword}' не знайдено.");
+                Logger.Info($"No results found for '{keyword}'.");
                 return false;
             }
 
@@ -30,7 +30,7 @@ namespace Business.Pages
                 var invalidLinks = links.Where(l => !l.Text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
                 foreach (var invalid in invalidLinks)
                 {
-                    Logger.Debug($"Знайдено нерелевантний лінк: {invalid.Text}");
+                    Logger.Debug($"Found irrelevant link: {invalid.Text}");
                 }
             }
 

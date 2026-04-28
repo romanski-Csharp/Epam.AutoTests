@@ -41,7 +41,7 @@ namespace Business.Pages
 
         public void SearchPositions(string position, string countryName)
         {
-            Logger.Info($"Шукаємо вакансію: '{position}' у країні '{countryName}'");
+            Logger.Info($"Searching for position: '{position}' in country '{countryName}'");
 
             WaitForPreloaderToDisappear();
             CountryField.SendKeys(Keys.Backspace);
@@ -82,7 +82,7 @@ namespace Business.Pages
 
             if (!allCards.Any())
             {
-                Logger.Info("Вакансій за цим запитом не знайдено.");
+                Logger.Info("No vacancies found for this request.");
                 return false;
             }
 
@@ -101,7 +101,7 @@ namespace Business.Pages
                 }
                 catch (StaleElementReferenceException)
                 {
-                    Logger.Debug("Спіймали StaleElementReferenceException, чекаємо оновлення DOM...");
+                    Logger.Debug("Caught StaleElementReferenceException, waiting for DOM update...");
                     return false;
                 }
             });
@@ -111,7 +111,7 @@ namespace Business.Pages
 
             if (!isMatch)
             {
-                Logger.Debug($"Шукали: '{position}'. Отримали текст:\n{actualCardText}");
+                Logger.Debug($"Searched for: '{position}'. Received text:\n{actualCardText}");
             }
 
             return isMatch;

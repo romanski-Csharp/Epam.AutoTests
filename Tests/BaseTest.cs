@@ -13,15 +13,10 @@ namespace Tests
         protected IWebDriver driver;
         public string DownloadDirectory;
 
-        [OneTimeSetUp]
-        public static void GlobalSetup()
-        {
-            Core.Utils.Logger.InitLogger();
-        }
         [SetUp]
         public void Setup()
         {
-            Core.Utils.Logger.Info($"[START] Початок тесту: {TestContext.CurrentContext.Test.Name}");
+            Core.Utils.Logger.Info($"[START] Test started: {TestContext.CurrentContext.Test.Name}");
 
             DownloadDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloads", Guid.NewGuid().ToString());
             Directory.CreateDirectory(DownloadDirectory);
@@ -33,8 +28,9 @@ namespace Tests
 
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl(envUrl);
-            Core.Utils.Logger.Info($"Відкрито URL: {envUrl}");
+            Core.Utils.Logger.Info($"URL opened: {envUrl}");
         }
+        
         protected bool WaitUntilFileIsDownloaded(string filePath, int timeoutInSeconds = 15)
         {
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
