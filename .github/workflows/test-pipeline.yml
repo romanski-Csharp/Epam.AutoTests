@@ -1,0 +1,72 @@
+name: Epam AutoTests Pipeline
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Choose browser for UI tests'
+        required: true
+        default: 'Chrome'
+        type: choice
+        options:
+          - Chrome
+          - Firefox
+          - Edge
+
+jobs:
+  execute-tests:
+    name: Run API & UI Tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+      - name: Run API Tests
+        id: api_tests
+        continue-on-error: true
+        run: >
+          dotnet test ./Tests/Tests.csproj --no-build 
+          --filter "Category=API" 
+          --logger "trx;LogFileName=api-results.trx" 
+          --results-directory ./TestResults
+
+      - name: Run UI Tests
+        id: ui_tests
+        if: always()
+        run: >
+          dotnet test ./Tests/Tests.csproj --no-build 
+          --filter "Category!=API" 
+          --logger "trx;LogFileName=ui-results.trx" 
+          --results-directory ./TestResults 
+          -- TestRunParameters.Parameter="Browser=${{ inputs.browser || 'Chrome' }}"
+
+      - name: Upload Test Results and Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-execution-artifacts
+          path: |
+            ./TestResults/*.trx
+            ./Tests/bin/**/Logs/*.log
+            ./Tests/bin/**/Screenshots/*.png
+          retention-days: 7
+
+      - name: Fail Pipeline if any tests failed
+        if: steps.api_tests.outcome == 'failure' || steps.ui_tests.outcome == 'failure'
+        run: exit 1
