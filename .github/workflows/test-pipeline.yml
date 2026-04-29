@@ -48,13 +48,13 @@ jobs:
 
       - name: Run UI Tests
         id: ui_tests
-        if: always()
+        if: always() 
         run: >
           dotnet test ./Tests/Tests.csproj --no-build 
           --filter "Category!=API" 
           --logger "trx;LogFileName=ui-results.trx" 
           --results-directory ./TestResults 
-          -- TestRunParameters.Parameter="Browser=${{ inputs.browser || 'Chrome' }}"
+          -- TestRunParameters.Parameter(name=\"Browser\", value=\"${{ inputs.browser || 'Chrome' }}\")
 
       - name: Upload Test Results and Screenshots
         if: always()
