@@ -21,9 +21,14 @@ namespace Core.DriverFactory
                 options.AddArgument("--no-sandbox");
                 options.AddArgument("--disable-dev-shm-usage");
                 options.AddArgument("--disable-gpu");
+                options.AddArgument("--window-size=1920,1080");
                 options.AddArgument("--disable-blink-features=AutomationControlled");
                 options.AddExcludedArgument("enable-automation");
-                options.AddArgument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+                options.AddArgument("--disable-infobars");
+                options.AddArgument("--disable-extensions");
+                options.AddArgument("--disable-features=IsolateOrigins,site-per-process");
+                options.AddArgument("--lang=en-US");
+                options.AddArgument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36");
             }
         }
     }
