@@ -25,7 +25,7 @@ namespace Core.Configuration
                 }
             }
         }
-
+        public int ExplicitWait => int.Parse(TestContext.Parameters.Get("ExplicitWait", "15"));
         public string Browser => TestContext.Parameters.Get("Browser", "Chrome");
         public string EnvironmentUrl => TestContext.Parameters.Get("EnvironmentUrl", "https://www.epam.com/");
         public bool PromptForDownload => bool.Parse(TestContext.Parameters.Get("PromptForDownload", "false"));

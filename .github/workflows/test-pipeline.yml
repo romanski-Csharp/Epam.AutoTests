@@ -18,10 +18,10 @@ on:
           - Edge
 
 jobs:
-  execute-tests:
-    name: Run API & UI Tests
+  api-tests:
+    name: Run API Tests
     runs-on: windows-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,42 +31,49 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build project
-        run: dotnet build --no-restore
-
       - name: Run API Tests
-        id: api_tests
-        continue-on-error: true
         run: >
-          dotnet test ./Tests/Tests.csproj --no-build 
-          --filter "Category=API" 
+          dotnet test ./Tests.API/Tests.API.csproj 
           --logger "trx;LogFileName=api-results.trx" 
           --results-directory ./TestResults
 
-      - name: Run UI Tests
-        id: ui_tests
-        if: always() 
-        run: >
-          dotnet test ./Tests/Tests.csproj --no-build 
-          --filter "Category!=API" 
-          --logger "trx;LogFileName=ui-results.trx" 
-          --results-directory ./TestResults 
-          -- 'TestRunParameters.Parameter(name="Browser", value="${{ inputs.browser }}")'
-
-      - name: Upload Test Results and Screenshots
+      - name: Upload API Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-execution-artifacts
+          name: api-test-results
+          path: ./TestResults/api-results.trx
+          retention-days: 7
+          
+  ui-tests:
+    name: Run UI Tests
+    runs-on: windows-latest
+    env:
+      GITHUB_ACTIONS: true 
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run UI Tests
+        run: >
+          dotnet test ./Tests.UI/Tests.UI.csproj 
+          --logger "trx;LogFileName=ui-results.trx" 
+          --results-directory ./TestResults 
+          -- 'TestRunParameters.Parameter(name="Browser", value="${{ inputs.browser || 'Chrome' }}")'
+
+      - name: Upload UI Artifacts (Screenshots & Logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-artifacts
           path: |
             ./TestResults/*.trx
-            ./Tests/bin/**/Logs/*.log
-            ./Tests/bin/**/Screenshots/*.png
+            ./Tests.UI/bin/**/Logs/*.log
+            ./Tests.UI/bin/**/Screenshots/*.png
           retention-days: 7
-
-      - name: Fail Pipeline if any tests failed
-        if: steps.api_tests.outcome == 'failure' || steps.ui_tests.outcome == 'failure'
-        run: exit 1

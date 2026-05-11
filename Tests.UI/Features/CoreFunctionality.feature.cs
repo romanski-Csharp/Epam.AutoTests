@@ -11,26 +11,26 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace Tests.Features
+namespace Tests.UI.Features
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::NUnit.Framework.TestFixtureAttribute()]
-    [global::NUnit.Framework.DescriptionAttribute("Services Navigation")]
+    [global::NUnit.Framework.DescriptionAttribute("Core Epam Functionality")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class ServicesNavigationFeature
+    public partial class CoreEpamFunctionalityFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Services Navigation", "  As a user of the EPAM website\r\n  I want to navigate through the Services menu\r\n" +
-                "  So that I can view specific service offerings", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Core Epam Functionality", "  As a user\r\n  I want to be able to search for jobs, use global search, and downl" +
+                "oad files\r\n  So that I can find relevant information on the EPAM website", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
-#line 1 "ServicesNavigation.feature"
+#line 1 "CoreFunctionality.feature"
 #line hidden
         
         [global::NUnit.Framework.OneTimeSetUpAttribute()]
@@ -106,21 +106,22 @@ namespace Tests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/ServicesNavigation.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CoreFunctionality.feature.ndjson", 8);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Validate Navigation to Services Section")]
-        [global::NUnit.Framework.TestCaseAttribute("Generative AI", "Generative AI", "0", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Responsible AI", "Responsible AI", "1", null)]
-        public async global::System.Threading.Tasks.Task ValidateNavigationToServicesSection(string serviceCategory, string expectedTitle, string @__pickleIndex, string[] exampleTags)
+        [global::NUnit.Framework.DescriptionAttribute("Criteria based search should give relevant position")]
+        [global::NUnit.Framework.TestCaseAttribute(".NET", "Ukraine", "0", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Java", "Brazil", "1", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Python", "Mexico", "2", null)]
+        public async global::System.Threading.Tasks.Task CriteriaBasedSearchShouldGiveRelevantPosition(string position, string country, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("ServiceCategory", serviceCategory);
-            argumentsOfScenario.Add("ExpectedTitle", expectedTitle);
+            argumentsOfScenario.Add("Position", position);
+            argumentsOfScenario.Add("Country", country);
             string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate Navigation to Services Section", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Criteria based search should give relevant position", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 6
@@ -134,19 +135,50 @@ namespace Tests.Features
             {
                 await this.ScenarioStartAsync();
 #line 7
-    await testRunner.GivenAsync("I open the Epam main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I navigate to the Epam Careers page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
-    await testRunner.WhenAsync("I hover over the \"Services\" link in the main navigation menu", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync(string.Format("I search for a \"{0}\" position in \"{1}\"", position, country), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
-    await testRunner.AndAsync(string.Format("I select the \"{0}\" service category from the dropdown", serviceCategory), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync(string.Format("the search results should contain the \"{0}\" position", position), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 10
-    await testRunner.ThenAsync(string.Format("the page title should contain \"{0}\"", expectedTitle), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Global search should give relevant results")]
+        [global::NUnit.Framework.TestCaseAttribute("Automation", "3", null)]
+        [global::NUnit.Framework.TestCaseAttribute("BLOCKCHAIN", "4", null)]
+        [global::NUnit.Framework.TestCaseAttribute("Cloud", "5", null)]
+        public async global::System.Threading.Tasks.Task GlobalSearchShouldGiveRelevantResults(string keyword, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Keyword", keyword);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Global search should give relevant results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 17
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
-#line 11
-    await testRunner.AndAsync("the \'Our Related Expertise\' section should be displayed on the page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 18
+    await testRunner.GivenAsync("I open the Epam main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 19
+    await testRunner.WhenAsync(string.Format("I perform a global search for \"{0}\"", keyword), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 20
+    await testRunner.ThenAsync(string.Format("all search results should be relevant to the keyword \"{0}\"", keyword), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

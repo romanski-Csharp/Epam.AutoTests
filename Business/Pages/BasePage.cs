@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using Core.Configuration;
 
 namespace Business.Pages
 {
@@ -10,7 +11,7 @@ namespace Business.Pages
         protected BasePage(IWebDriver driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(ConfigManager.Instance.ExplicitWait));
         }
     }
 }

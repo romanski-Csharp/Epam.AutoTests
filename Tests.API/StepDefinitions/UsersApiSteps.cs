@@ -1,10 +1,11 @@
 ﻿using Business.Models;
 using Business.Services;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Reqnroll;
 using RestSharp;
 
-namespace Tests.StepDefinitions
+namespace Tests.API.StepDefinitions
 {
     [Binding]
     public class UsersApiSteps
@@ -66,18 +67,22 @@ namespace Tests.StepDefinitions
         public void ThenTheResponseShouldContainAListOfUsersWithAllRequiredInformationPopulated()
         {
             var users = _usersResponse.Data;
+
             users.Should().NotBeNullOrEmpty();
 
-            foreach (var user in users)
+            using (new AssertionScope())
             {
-                user.Id.Should().BeGreaterThan(0);
-                user.Name.Should().NotBeNullOrEmpty();
-                user.Username.Should().NotBeNullOrEmpty();
-                user.Email.Should().NotBeNullOrEmpty();
-                user.Phone.Should().NotBeNullOrEmpty();
-                user.Website.Should().NotBeNullOrEmpty();
-                user.Address.Should().NotBeNull();
-                user.Company.Should().NotBeNull();
+                foreach (var user in users)
+                {
+                    user.Id.Should().BeGreaterThan(0);
+                    user.Name.Should().NotBeNullOrEmpty();
+                    user.Username.Should().NotBeNullOrEmpty();
+                    user.Email.Should().NotBeNullOrEmpty();
+                    user.Phone.Should().NotBeNullOrEmpty();
+                    user.Website.Should().NotBeNullOrEmpty();
+                    user.Address.Should().NotBeNull();
+                    user.Company.Should().NotBeNull();
+                }
             }
         }
 

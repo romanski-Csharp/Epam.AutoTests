@@ -11,26 +11,26 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace Tests.Features
+namespace Tests.UI.Features
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::NUnit.Framework.TestFixtureAttribute()]
-    [global::NUnit.Framework.DescriptionAttribute("Core Epam Functionality")]
+    [global::NUnit.Framework.DescriptionAttribute("File Download Functionality")]
     [global::NUnit.Framework.FixtureLifeCycleAttribute(global::NUnit.Framework.LifeCycle.InstancePerTestCase)]
-    public partial class CoreEpamFunctionalityFeature
+    public partial class FileDownloadFunctionalityFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Core Epam Functionality", "  As a user\r\n  I want to be able to search for jobs, use global search, and downl" +
-                "oad files\r\n  So that I can find relevant information on the EPAM website", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "File Download Functionality", "  As a user\r\n  I want to be able to download documents from the website\r\n  So tha" +
+                "t I can read them offline", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
-#line 1 "CoreFunctionality.feature"
+#line 1 "FileDownload.feature"
 #line hidden
         
         [global::NUnit.Framework.OneTimeSetUpAttribute()]
@@ -106,62 +106,22 @@ namespace Tests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CoreFunctionality.feature.ndjson", 8);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/FileDownload.feature.ndjson", 3);
         }
         
         [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Criteria based search should give relevant position")]
-        [global::NUnit.Framework.TestCaseAttribute(".NET", "Ukraine", "0", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Java", "Brazil", "1", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Python", "Mexico", "2", null)]
-        public async global::System.Threading.Tasks.Task CriteriaBasedSearchShouldGiveRelevantPosition(string position, string country, string @__pickleIndex, string[] exampleTags)
+        [global::NUnit.Framework.DescriptionAttribute("Download the Code of Conduct file")]
+        [global::NUnit.Framework.CategoryAttribute("UI")]
+        public async global::System.Threading.Tasks.Task DownloadTheCodeOfConductFile()
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] tagsOfScenario = new string[] {
+                    "UI"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("Position", position);
-            argumentsOfScenario.Add("Country", country);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Criteria based search should give relevant position", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "0";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Download the Code of Conduct file", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
 #line 7
-    await testRunner.GivenAsync("I navigate to the Epam Careers page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 8
-    await testRunner.WhenAsync(string.Format("I search for a \"{0}\" position in \"{1}\"", position, country), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 9
-    await testRunner.ThenAsync(string.Format("the search results should contain the \"{0}\" position", position), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::NUnit.Framework.TestAttribute()]
-        [global::NUnit.Framework.DescriptionAttribute("Global search should give relevant results")]
-        [global::NUnit.Framework.TestCaseAttribute("Automation", "3", null)]
-        [global::NUnit.Framework.TestCaseAttribute("BLOCKCHAIN", "4", null)]
-        [global::NUnit.Framework.TestCaseAttribute("Cloud", "5", null)]
-        public async global::System.Threading.Tasks.Task GlobalSearchShouldGiveRelevantResults(string keyword, string @__pickleIndex, string[] exampleTags)
-        {
-            string[] tagsOfScenario = exampleTags;
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("Keyword", keyword);
-            string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Global search should give relevant results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -171,14 +131,14 @@ namespace Tests.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 18
+#line 8
     await testRunner.GivenAsync("I open the Epam main page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 19
-    await testRunner.WhenAsync(string.Format("I perform a global search for \"{0}\"", keyword), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 9
+    await testRunner.WhenAsync("I download the Code of Conduct file", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 20
-    await testRunner.ThenAsync(string.Format("all search results should be relevant to the keyword \"{0}\"", keyword), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 10
+    await testRunner.ThenAsync("the file \"Code-Of-Conduct_01_26.pdf\" should be downloaded successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

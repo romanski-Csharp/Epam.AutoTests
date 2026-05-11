@@ -4,7 +4,7 @@ using FluentAssertions;
 using OpenQA.Selenium;
 using Reqnroll;
 
-namespace Tests.StepDefinitions
+namespace Tests.UI.StepDefinitions
 {
     [Binding]
     public class ServicesNavigationSteps

@@ -5,5 +5,6 @@
   <Project Path="Business/Business.csproj" Id="868f2442-718b-4a5a-be02-6ca0b6e9381f" />
   <Project Path="Core/Core.csproj" />
   <Project Path="Data/Data.csproj" />
-  <Project Path="Tests/Tests.csproj" />
+  <Project Path="Tests.API/Tests.API.csproj" Id="8421f361-5086-4f8a-8479-5919865a9d00" />
+  <Project Path="Tests.UI/Tests.UI.csproj" Id="ea1b8b61-10d2-4f9b-92ab-94ec4d1e3225" />
 </Solution>

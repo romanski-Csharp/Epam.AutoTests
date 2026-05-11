@@ -1,4 +1,3 @@
-@API
 Feature: Users API Testing
   As an API consumer
   I want to interact with the Users endpoint
